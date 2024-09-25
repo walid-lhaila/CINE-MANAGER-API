@@ -1,0 +1,26 @@
+import express  from "express";
+import mongoose  from "mongoose";
+import dotenv  from "dotenv";
+import router from "./server/routes/router.js";
+
+const app = express();
+dotenv.config();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true}));
+
+//LOAD ROUTERS
+app.use('/', router);
+
+//MANAGE PORTS
+const PORT = process.env.PORT || 2003;
+const MONGOURL = process.env.MONGO_URL;
+
+//CONNECT DATABASE AND RUN THE SERVER
+mongoose.connect(MONGOURL).then(() => {
+    console.log("DataBase Connected Successfully.");
+    app.listen(PORT, () => {
+        console.log(`Server Is Running On Port ${PORT}`);
+    });
+}).catch((error) => console.log(err));
+
