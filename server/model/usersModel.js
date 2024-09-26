@@ -19,7 +19,10 @@ var usersSchema = new mongoose.Schema({
     password: {
         type : String,
         required : true
-    }
+    },
+
+    passwordResetToken: String,
+    passwordResetExpires: Date,
 })
 
 const userDb = mongoose.model('users', usersSchema);

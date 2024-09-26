@@ -1,35 +1,48 @@
 import sessionDb from '../model/sessionModel.js';
 import reservationDb from '../model/reservationModel.js';
+import email from '../../email.js';
 
 class ReservationService {
 
-    async reserveSeat(sessionId, seatNumber, userId) {
+    async reserveSeat(sessionId, seatNumber, userId, userEmail) {
         const session = await sessionDb.findById(sessionId);
-        if(!session) {
-            throw new Error ('Session Not Found');
+        if (!session) {
+            throw new Error('Session Not Found');
         }
 
         const seat = session.seats.find(s => s.seatNumber === seatNumber);
-        if(!seat) {
-            throw new Error (`seats number ${seatNumber} not found`);
+        if (!seat) {
+            throw new Error(`Seat number ${seatNumber} not found`);
         }
 
-        if(seat.isReserved) {
-            throw new Error (`seat number ${seatNumber} is already reserved`);
+        if (seat.isReserved) {
+            throw new Error(`Seat number ${seatNumber} is already reserved`);
         }
 
         seat.isReserved = true;
-
         await session.save();
 
-        const reservation = new reservationDb ({
+        const reservation = new reservationDb({
             sessionId,
             userId,
             seatNumber,
         });
 
-        return await reservation.save();
+        const savedReservation = await reservation.save();
+
+        try {
+            await email(
+                userEmail,
+                "Reservation Confirmation",
+                `Your reservation for the seance has been confirmed for places ${reservation.seatNumber}`
+        );
+        } catch (emailError) {
+            console.error("Error sending email:", emailError.message);
+        }
+
+        return savedReservation;
     }
+
 
     async updateReservation(reservationId, updateData) {
         const reservation = await reservationDb.findById(reservationId);

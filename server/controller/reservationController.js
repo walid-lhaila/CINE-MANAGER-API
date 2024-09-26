@@ -3,19 +3,19 @@ import reservationDb from "../model/reservationModel.js";
 
 
 const reserveSeat = async (req, res) => {
-        try {
-            const { sessionId, seatNumber, userId } = req.body;
+    try {
+        const { sessionId, seatNumber, userId, userEmail } = req.body;
 
-            const resevation = await reservationService.reserveSeat(sessionId, seatNumber, userId)
-            res.status(200).json({
-                message : `Seat number ${seatNumber} reserved successfully`,
-                resevation,
-            });
-        } catch (err) {
-            res.status(500).json({
-                message: err.message || "Cannot reserved ",
-            });
-        }
+        const reservation = await reservationService.reserveSeat(sessionId, seatNumber, userId, userEmail);
+        res.status(200).json({
+            message: `Seat number ${seatNumber} reserved successfully`,
+            reservation,
+        });
+    } catch (err) {
+        res.status(500).json({
+            message: err.message || "Cannot reserve seat",
+        });
+    }
 };
 
 const updateReservation = async (req, res) => {

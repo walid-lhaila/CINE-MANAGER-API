@@ -14,8 +14,11 @@ const route = express.Router();
 // AUTHENTIFICATION ROUTES API
 route.post('/api/createClient', authController.create);
 route.post('/api/login', authController.login);
-route.post('/api/logout', authMiddleware(), authController.logout); 
+route.post('/api/logout', authMiddleware(), authController.logout);
 
+// RESET PASSWORD ROUTES API
+route.post('/api/password-reset', authController.requestPasswordReset);
+route.post('/api/reset-password/:token', authController.resetPassword);
 
 // ADMIN ROUTES API
 route.post('/api/createAdmin', authMiddleware(['admin']), adminController.addAdmin);
