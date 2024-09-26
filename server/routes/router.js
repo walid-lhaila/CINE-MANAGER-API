@@ -6,11 +6,12 @@ import movieController from '../controller/movieController.js';
 import hallController from '../controller/hallController.js';
 import hallService from '../services/hallService.js';
 import sessionController from '../controller/sessionController.js';
+import reservationController from "../controller/reservationController.js";
 
 const route = express.Router();
 
 
-// REGISTERATION AND LOGIN AND LOG OUT API
+// AUTHENTIFICATION ROUTES API
 route.post('/api/createClient', authController.create);
 route.post('/api/login', authController.login);
 route.post('/api/logout', authMiddleware(), authController.logout); 
@@ -34,7 +35,7 @@ route.get('/api/getAllMovies', authMiddleware(['admin']), movieController.getAll
 route.post('/api/createHall', authMiddleware(['admin']), hallController.addHall);
 route.put('/api/updateHall/:id', authMiddleware(['admin']), hallController.updateHall);
 route.delete('/api/deleteHall/:id', authMiddleware(['admin']), hallController.deleteHall);
-route.get('/api/getAllHall', authMiddleware(['admin']), hallService.getAllHall);
+route.get('/api/getAllHall', authMiddleware(['admin']), hallController.getAllHall);
 
 
 // SESSION ROUTES API
@@ -42,5 +43,14 @@ route.post('/api/createSession', authMiddleware(['admin']), sessionController.ad
 route.put('/api/updateSession/:id', authMiddleware(['admin']), sessionController.updatedSession);
 route.delete('/api/deleteSession/:id', authMiddleware(['admin']), sessionController.deleteSession);
 route.get('/api/getAvailableSession', authMiddleware(['admin']), sessionController.getAvailableSessions);
+
+
+// RESERVATION ROUTES API
+route.post('/api/reserveSeat', authMiddleware(['client']), reservationController.reserveSeat);
+route.put('/api/updateReservation/:id', authMiddleware(['client']), reservationController.updateReservation);
+route.delete('/api/deleteReservation/:id', authMiddleware(['client']), reservationController.deleteReservation);
+
+
+
 
 export default route;

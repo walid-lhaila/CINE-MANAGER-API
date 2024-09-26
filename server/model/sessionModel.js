@@ -23,6 +23,11 @@ import mongoose from "mongoose";
         required: true,
     },
 
+     seats: [{
+        seatNumber: { type: Number, required : true },
+         isReserved: { type: Boolean, required : false },
+     }],
+
     availability: {
         type: Boolean,
         default: true, 

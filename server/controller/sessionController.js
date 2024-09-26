@@ -8,7 +8,7 @@ const addSession = async (req, res) => {
             message: "session created successfully", savedSeesion
         });
     } catch (err) {
-        res.status(500).josn({
+        res.status(500).json({
             message : err.message || "Cannot create a session"
         });
     }
