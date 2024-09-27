@@ -19,7 +19,7 @@ describe('AuthService', () => {
         role: 'client',
         email: 'test@test.com',
         password: 'test2024',
-        save: jest.fn().mockResolvedValue(mockUser),  // Ajout de la méthode save ici
+        save: jest.fn().mockResolvedValue(mockUser),
     };
 
     beforeEach(() => {
