@@ -55,6 +55,7 @@ class AuthService {
 
         user.passwordResetToken = resetTokenHash;
         user.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+
         await user.save();
 
         const resetUrl = `${process.env.FRONTEND_URL}/resetPassword/${resetToken}`;
