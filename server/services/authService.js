@@ -7,6 +7,14 @@ import nodemailer from "nodemailer";
 
 dotenv.config();
 
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD
+    }
+});
+
 class AuthService {
 
     async registerClient(clientData) {
@@ -46,24 +54,15 @@ class AuthService {
         const resetTokenHash = crypto.createHash('sha256').update(resetToken).digest('hex');
 
         user.passwordResetToken = resetTokenHash;
-        user.passwordResetExpires = Date.now() * 10 * 60 * 1000;
+        user.passwordResetExpires = Date.now() + 10 * 60 * 1000;
         await user.save();
 
         const resetUrl = `${process.env.FRONTEND_URL}/resetPassword/${resetToken}`;
 
         const message = `You requested a password reset. Click the link to reset: ${resetUrl}`;
 
-        // Send email using Nodemailer
-        const transporter = nodemailer.createTransport({
-            service: 'Gmail',
-            auth: {
-                user: process.env.EMAIL_USERNAME,
-                pass: process.env.EMAIL_PASSWORD
-            }
-        });
-
         await transporter.sendMail({
-            from: process.env.EMAIL_USERNAME,
+            from: process.env.EMAIL,
             to: email,
             subject: 'Password Reset',
             text: message
