@@ -2,13 +2,15 @@ import express from 'express';
 import authController from '../controller/authController.js'
 import adminController from '../controller/adminController.js'
 import  {authMiddleware}  from '../middleware/authMiddleware.js';
+import upload from '../middlewares/upload.js';
 import movieController from '../controller/movieController.js';
 import hallController from '../controller/hallController.js';
-import hallService from '../services/hallService.js';
 import sessionController from '../controller/sessionController.js';
 import reservationController from "../controller/reservationController.js";
+import multer from 'multer';
 
 const route = express.Router();
+const upload = multer({ dest: 'uploads/' });
 
 
 // AUTHENTIFICATION ROUTES API
@@ -28,7 +30,7 @@ route.get('/api/getAllAdmins', authMiddleware(['admin']), adminController.getAll
 
 
 // MOVIE ROUTES API
-route.post('/api/createMovie', authMiddleware(['admin']), movieController.addMovie);
+route.post('/api/createMovie', upload, authMiddleware(['admin']), movieController.addMovie);
 route.put('/api/updateMovie/:id', authMiddleware(['admin']), movieController.updateMovie);
 route.delete('/api/deleteMovie/:id', authMiddleware(['admin']), movieController.deleteMovie);
 route.get('/api/getAllMovies', authMiddleware(['admin']), movieController.getAllMovies);

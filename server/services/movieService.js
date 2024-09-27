@@ -1,17 +1,24 @@
     import movieDb from "../model/movieModel.js";
     import dotenv from 'dotenv';
+    import minio from '../../minio.js';
 
     dotenv.config();
 
     class MovieService {
 
         async addMovie(movieData) {
-            const { title, description } = movieData;
+            const { title, description, picture } = movieData;
 
             const movie = new movieDb ({
                 title,
-                description
+                description,
+                picture
             });
+
+            if (file) {
+                const posterUrl = await this.uploadMoviePoster(file);
+                    movie.picture = posterUrl;
+            }
 
             return await movie.save();
         }
@@ -37,6 +44,20 @@
         async getAllMovies() {
             const movies = await movieDb.find();
             return movies;
+        }
+
+        async uploadMoviePoster(file) {
+            const bucketName = 'cinemanager';
+            const fileName = `posters/${file.originalname}`;
+
+            const exists = await minio.bucketExists(bucketName);
+            if (!exists) {
+                await minio.makeBucket(bucketName, 'us-east-1');
+            }
+
+
+            await minio.fPutObject(bucketName, fileName, file.path);
+            return `http://127.0.0.1:9000/${bucketName}/${fileName}`;
         }
     }
 

@@ -2,7 +2,7 @@ import movieService from '../services/movieService.js';
 
 const addMovie = async (req, res) => {
     try {
-        const savedMovie = await movieService.addMovie(req.body);
+        const savedMovie = await movieService.addMovie(req.body, req.file);
         res.status(200).json( {
             message: "movie created successfully", movie: savedMovie
         });
