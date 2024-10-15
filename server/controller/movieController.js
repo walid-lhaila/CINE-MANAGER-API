@@ -2,7 +2,13 @@ import movieService from '../services/movieService.js';
 
 const addMovie = async (req, res) => {
     try {
-        const savedMovie = await movieService.addMovie(req.body, req.file);
+        if (!req.files || !req.files.poster || !req.files.trailer) {
+            return res.status(400).json({ message: "Poster and trailer files are required" });
+        }
+        const savedMovie = await movieService.addMovie(req.body, {
+            poster:req.files.poster[0],
+            trailer: req.files.trailer[0]
+        });
         res.status(200).json( {
             message: "movie created successfully", movie: savedMovie
         });

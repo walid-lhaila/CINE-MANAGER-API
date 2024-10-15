@@ -14,7 +14,17 @@ var moviesSchema = new mongoose.Schema({
     picture: {
         type: String,
         required: true,
-    }
+    },
+
+    trailer: {
+        type: String,
+        required: true,
+    },
+    
+    categories: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'categories',
+    }]
 })
 
 const movieDb = mongoose.model('movies', moviesSchema);

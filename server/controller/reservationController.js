@@ -49,4 +49,23 @@ const deleteReservation = async (req, res) => {
     }
 }
 
-export default { reserveSeat, updateReservation, deleteReservation };
+const myReservations = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const reservations = await reservationDb.find({ userId })
+        .populate({
+            path: 'sessionId',
+            populate: { path: 'movieId', model: 'movies' } 
+        });
+        res.status(200).json({
+            message: 'Reservations Fetched Successfully',
+            reservations,
+        });
+    } catch (err) {
+        res.status(500).json({
+            message: err.message || 'Unable To Fetch Reservations'
+        });
+    }
+}
+
+export default { reserveSeat, updateReservation, deleteReservation, myReservations };

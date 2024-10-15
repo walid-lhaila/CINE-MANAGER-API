@@ -50,7 +50,7 @@ class AuthService {
         const user = await userDb.findOne({ email });
         if(!user) throw new Error ("User Not Found");
 
-        const resetToken = crypto.randomBytes(16).toString('hex');
+        const resetToken = crypto.randomBytes(26).toString('hex');
         const resetTokenHash = crypto.createHash('sha256').update(resetToken).digest('hex');
 
         user.passwordResetToken = resetTokenHash;
@@ -58,7 +58,7 @@ class AuthService {
 
         await user.save();
 
-        const resetUrl = `${process.env.FRONTEND_URL}/resetPassword/${resetToken}`;
+        const resetUrl = `http://localhost:5173/NewPassword/${resetToken}`;
 
         const message = `You requested a password reset. Click the link to reset: ${resetUrl}`;
 

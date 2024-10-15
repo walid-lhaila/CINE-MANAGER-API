@@ -1,4 +1,5 @@
 import express  from "express";
+import cors from "cors";
 import mongoose  from "mongoose";
 import dotenv  from "dotenv";
 import router from "./server/routes/router.js";
@@ -6,6 +7,8 @@ import router from "./server/routes/router.js";
 const app = express();
 dotenv.config();
 
+
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 

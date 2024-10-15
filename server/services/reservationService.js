@@ -1,10 +1,12 @@
 import sessionDb from '../model/sessionModel.js';
 import reservationDb from '../model/reservationModel.js';
 import email from '../../email.js';
+import userDb from '../model/usersModel.js';
 
 class ReservationService {
 
-    async reserveSeat(sessionId, seatNumber, userId, userEmail) {
+    async reserveSeat(sessionId, seatNumber, userId) {
+    
         const session = await sessionDb.findById(sessionId);
         if (!session) {
             throw new Error('Session Not Found');
@@ -29,6 +31,12 @@ class ReservationService {
         });
 
         const savedReservation = await reservation.save();
+
+        const user = await userDb.findById(userId);
+        if(!user) {
+            throw new Error('user not found');
+        }
+        const userEmail = user.email;
 
         try {
             await email(
@@ -107,6 +115,14 @@ class ReservationService {
 
         await reservationDb.findByIdAndDelete(reservationId);
         return { message: "Reservation deleted successfully"};
+    }
+
+    async myReservation(userId) {
+        const reservations = await reservationDb.find({ userId }).populate('sessionId');
+        if(!reservations || reservations.length === 0) {
+            throw new Error ('No Reservations Found For This Client');
+        }
+        return  reservations
     }
 }
 

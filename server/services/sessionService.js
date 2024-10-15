@@ -45,8 +45,19 @@ class SessionService {
     }
 
     async getAvailableSessions() {
-        const getSessions = await sessionDb.find({ availability : true});
+        const getSessions = await sessionDb.find({ availability : true}) .populate('movieId');
         return getSessions;
+    }
+
+    async getSessionById(sessionId) {
+        const getSessionById = await sessionDb.findById(sessionId).populate('movieId').populate('hallId');
+        return getSessionById;
+    }
+
+
+    async getLatestSessions() {
+        const getLatestSessions = await sessionDb.find().sort({createdAt: -1}).limit(3).populate('movieId').populate('hallId');
+        return getLatestSessions;
     }
 }
 

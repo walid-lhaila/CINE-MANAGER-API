@@ -6,22 +6,28 @@
 
     class MovieService {
 
-        async addMovie(movieData) {
-            const { title, description, picture } = movieData;
+        async addMovie(movieData, files) {
+            const { title, description, categories } = movieData;
 
-            const movie = new movieDb ({
+            if (!files.poster || !files.trailer) {
+                throw new Error("File is required");
+            }
+
+            const posterUrl = await this.uploadMoviePoster(files.poster, 'posters');
+            const trailerUrl = await this.uploadMoviePoster(files.trailer, 'trailers')
+
+            const movie = new movieDb({
                 title,
                 description,
-                picture
+                picture: posterUrl,
+                trailer: trailerUrl,
+                categories,
             });
-
-            if (file) {
-                const posterUrl = await this.uploadMoviePoster(file);
-                    movie.picture = posterUrl;
-            }
 
             return await movie.save();
         }
+
+
 
 
         async updateMovie(movieId, updatedData) {
@@ -42,13 +48,13 @@
         }
 
         async getAllMovies() {
-            const movies = await movieDb.find();
+            const movies = await movieDb.find().populate('categories', 'name');
             return movies;
         }
 
-        async uploadMoviePoster(file) {
+        async uploadMoviePoster(file, folder) {
             const bucketName = 'cinemanager';
-            const fileName = `posters/${file.originalname}`;
+            const fileName = `${folder}/${file.originalname}`;
 
             const exists = await minio.bucketExists(bucketName);
             if (!exists) {

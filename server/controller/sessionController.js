@@ -3,7 +3,7 @@ import sessionService from "../services/sessionService.js";
 
 const addSession = async (req, res) => {
     try {
-        const savedSeesion = await sessionService.addSession(req.body);
+        const savedSeesion = await sessionService.addSession(req.body, req.file);
         res.status(200).json({
             message: "session created successfully", savedSeesion
         });
@@ -61,4 +61,32 @@ const getAvailableSessions = async (req, res) => {
     }
 }
 
-export default { addSession, updatedSession, deleteSession, getAvailableSessions };
+const getSessionById = async (req, res) => {
+    try {
+        const sessionId = req.params.id;
+        const getSessionById = await sessionService.getSessionById(sessionId);
+        res.status(200).json({
+            message : "sessions : ", getSessionById
+        });
+    } catch (err) {
+        res.status(500).json({
+            message : err.message || "Cannot get the session"
+        });
+    }
+}
+
+const getLatestSessions = async (req, res) => {
+    try {
+        const sessions = await sessionService.getLatestSessions();
+        res.status(200).json({
+            message: "Last Session Fetched Succeffuly",
+            sessions,
+        });
+    } catch (err) {
+        res.status(500).json({
+            message: "Cannot Get The Latest Session",
+        });
+    }
+};
+
+export default { addSession, updatedSession, deleteSession, getAvailableSessions, getSessionById, getLatestSessions };

@@ -2,15 +2,14 @@ import express from 'express';
 import authController from '../controller/authController.js'
 import adminController from '../controller/adminController.js'
 import  {authMiddleware}  from '../middleware/authMiddleware.js';
-import upload from '../middlewares/upload.js';
 import movieController from '../controller/movieController.js';
 import hallController from '../controller/hallController.js';
+import clientController from '../controller/clientController.js';
 import sessionController from '../controller/sessionController.js';
 import reservationController from "../controller/reservationController.js";
-import multer from 'multer';
-
+import upload from '../middleware/upload.js'
+import categoryController from '../controller/categoryController.js';
 const route = express.Router();
-const upload = multer({ dest: 'uploads/' });
 
 
 // AUTHENTIFICATION ROUTES API
@@ -18,9 +17,11 @@ route.post('/api/createClient', authController.create);
 route.post('/api/login', authController.login);
 route.post('/api/logout', authMiddleware(), authController.logout);
 
+
 // RESET PASSWORD ROUTES API
 route.post('/api/password-reset', authController.requestPasswordReset);
 route.post('/api/reset-password/:token', authController.resetPassword);
+
 
 // ADMIN ROUTES API
 route.post('/api/createAdmin', authMiddleware(['admin']), adminController.addAdmin);
@@ -47,15 +48,24 @@ route.get('/api/getAllHall', authMiddleware(['admin']), hallController.getAllHal
 route.post('/api/createSession', authMiddleware(['admin']), sessionController.addSession);
 route.put('/api/updateSession/:id', authMiddleware(['admin']), sessionController.updatedSession);
 route.delete('/api/deleteSession/:id', authMiddleware(['admin']), sessionController.deleteSession);
-route.get('/api/getAvailableSession', authMiddleware(['admin']), sessionController.getAvailableSessions);
+route.get('/api/getAvailableSession', sessionController.getAvailableSessions);
+route.get('/api/getSessionById/:id', sessionController.getSessionById);
+route.get('/api/getLatestSessions', sessionController.getLatestSessions);
 
 
 // RESERVATION ROUTES API
 route.post('/api/reserveSeat', authMiddleware(['client']), reservationController.reserveSeat);
 route.put('/api/updateReservation/:id', authMiddleware(['client']), reservationController.updateReservation);
-route.delete('/api/deleteReservation/:id', authMiddleware(['client']), reservationController.deleteReservation);
+route.delete('/api/deleteReservation/:id', reservationController.deleteReservation);
+route.get('/api/myReservations', authMiddleware(['client']), reservationController.myReservations);
 
 
+// CLIENTS ROUTES API
+route.get('/api/getAllClients', authMiddleware(['admin']), clientController.getAllClients);
 
 
+// CATEGORIES ROUTES API 
+route.post('/api/createdCategory', authMiddleware(['admin']), categoryController.addCategory);
+route.get('/api/getAllCategories', authMiddleware(['admin']), categoryController.getAllCategories);
+route.delete('/api/deleteCategory/:id', authMiddleware(['admin']), categoryController.deleteCategory);
 export default route;
