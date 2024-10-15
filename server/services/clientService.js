@@ -7,7 +7,7 @@ class ClientService {
         .then(clients => {
             return clients;
         })
-        .catch(error => {
+        .catch(error => {   
             throw error;
         });
     }

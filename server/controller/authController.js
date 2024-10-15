@@ -14,16 +14,20 @@
 
     const login = async (req, res) => {
         try {
-            const { token, role } = await authService.login(req.body.email, req.body.password);
-             if (role === "admin") {
-                return res.status(200).json({ message: "Admin Logged In Successfully", token});
-             } else {
-                return res.status(200).json({ message: "Client logged in successfully", token });
-             }
+            const { email, password } = req.body;
+            if (!email || !password) {
+                return res.status(400).json({ message: "Email and password are required!" });
+            }
+    
+            const { token, role } = await authService.login(email, password);
+    
+            const message = role === "admin" ? "Admin logged in successfully" : "Client logged in successfully";
+            return res.status(200).json({ message, token });
         } catch (err) {
-            res.status(401).send({ message: err.message });
+            console.error('Error during login:', err.message);
+            res.status(401).json({ message: "Invalid email or password!" });
         }
-    }
+    };
 
     const logout = (req, res) => {
         const token = req.headers['authorization'].split(' ')[1];

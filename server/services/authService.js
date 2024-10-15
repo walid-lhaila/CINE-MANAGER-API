@@ -33,6 +33,8 @@ class AuthService {
     }
 
     async login (email, password) {
+        try {
+
         const user = await userDb.findOne({ email });
         if(!user) throw new Error ("User Not Found!");
 
@@ -44,6 +46,10 @@ class AuthService {
         });
 
         return { token, role: user.role };
+        } catch (error) {
+            console.error('Error during login:', error.message);
+            throw new Error('Authentication failed!');
+        }
     }
 
     async sendResetPasswordEmail(email) {
