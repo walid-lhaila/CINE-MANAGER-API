@@ -63,5 +63,20 @@ const getAllMovies = async (req, res) => {
     }
 }
 
+const getMovieById = async (req, res) => {
+    try {
+        const movieId = req.params.id;
+        const getMovieById = await movieService.getMovieById(movieId);
+        res.status(200).json({
+            messsage: getMovieById
+        });
 
-export default { addMovie, updateMovie, deleteMovie, getAllMovies };
+    } catch (error) {
+        res.status(500).json({
+            message: (error, "cannot fetch movie details")
+        })
+    };
+}
+
+
+export default { addMovie, updateMovie, deleteMovie, getAllMovies, getMovieById };

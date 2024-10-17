@@ -7,6 +7,7 @@ import hallController from '../controller/hallController.js';
 import clientController from '../controller/clientController.js';
 import sessionController from '../controller/sessionController.js';
 import reservationController from "../controller/reservationController.js";
+import commentController from '../controller/commentController.js';
 import upload from '../middleware/upload.js'
 import categoryController from '../controller/categoryController.js';
 const route = express.Router();
@@ -29,12 +30,12 @@ route.put('/api/updateAdmin/:id', authMiddleware(['admin']), adminController.upd
 route.delete('/api/deleteAdmin/:id', authMiddleware(['admin']), adminController.deleteAdmin);
 route.get('/api/getAllAdmins', authMiddleware(['admin']), adminController.getAllAdmins);
 
-
 // MOVIE ROUTES API
 route.post('/api/createMovie', upload, authMiddleware(['admin']), movieController.addMovie);
 route.put('/api/updateMovie/:id', authMiddleware(['admin']), movieController.updateMovie);
 route.delete('/api/deleteMovie/:id', authMiddleware(['admin']), movieController.deleteMovie);
-route.get('/api/getAllMovies', authMiddleware(['admin']), movieController.getAllMovies);
+route.get('/api/getAllMovies', movieController.getAllMovies);
+route.get('/api/getMovieDetails/:id', movieController.getMovieById);
 
 
 // HALL ROUTES API
@@ -68,4 +69,7 @@ route.get('/api/getAllClients', authMiddleware(['admin']), clientController.getA
 route.post('/api/createdCategory', authMiddleware(['admin']), categoryController.addCategory);
 route.get('/api/getAllCategories', authMiddleware(['admin']), categoryController.getAllCategories);
 route.delete('/api/deleteCategory/:id', authMiddleware(['admin']), categoryController.deleteCategory);
+
+// COMMENTS ROUTES API
+route.post('/api/createComment/:id', authMiddleware(['client']), commentController.addComment);
 export default route;

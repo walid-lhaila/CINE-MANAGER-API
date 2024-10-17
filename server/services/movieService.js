@@ -65,6 +65,11 @@
             await minio.fPutObject(bucketName, fileName, file.path);
             return `http://127.0.0.1:9000/${bucketName}/${fileName}`;
         }
+
+        async getMovieById(movieId) {
+            const getMovieById = await movieDb.findById(movieId).populate('categories');
+            return getMovieById;
+        }
     }
 
 
