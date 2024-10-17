@@ -25,4 +25,31 @@ const addComment = async (req, res) => {
     }
 };
 
-export default {addComment};    
+const deleteComment = async (req, res) => {
+    try  {
+            const token = req.headers["authorization"]?.split(' ')[1];
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            const clientId = decoded.id;
+
+            const movieId = req.params.movieId;
+            const commentId = req.params.commentId;
+
+            const updatedMovie = await commentService.deleteComment(movieId, commentId, clientId);
+
+            res.status(200).json({
+                mesaage: "Comment Deleted Succeessfullly",
+                movie: updatedMovie,
+            });
+    }catch (error) {
+        res.status(500).json({
+            message: "Cannot Delete This Comment" + error.message
+        });
+    }
+};
+
+
+const updateComment = async (req, res) => {
+    
+}
+
+export default {addComment, deleteComment};    

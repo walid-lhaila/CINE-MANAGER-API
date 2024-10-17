@@ -67,7 +67,7 @@
         }
 
         async getMovieById(movieId) {
-            const getMovieById = await movieDb.findById(movieId).populate('categories');
+            const getMovieById = await movieDb.findById(movieId).populate('categories').populate({path: 'comments.client', select: 'name'});
             return getMovieById;
         }
     }

@@ -37,7 +37,7 @@ var moviesSchema = new mongoose.Schema({
     comments: [{
         client: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'clients', 
+            ref: 'users', 
             required: true,
         },
         comment: {
