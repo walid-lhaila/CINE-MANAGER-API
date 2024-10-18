@@ -17,7 +17,7 @@ var moviesSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    videoRating: {
+    movieRating: {
         type: Number,
         min: 0,
         max: 5, 

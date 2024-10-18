@@ -10,6 +10,8 @@ import reservationController from "../controller/reservationController.js";
 import commentController from '../controller/commentController.js';
 import upload from '../middleware/upload.js'
 import categoryController from '../controller/categoryController.js';
+import ratingController from '../controller/ratingController.js';
+
 const route = express.Router();
 
 
@@ -74,4 +76,7 @@ route.delete('/api/deleteCategory/:id', authMiddleware(['admin']), categoryContr
 route.post('/api/createComment/:id', authMiddleware(['client']), commentController.addComment);
 route.delete('/api/deleteComment/:movieId/:commentId', authMiddleware(['client']), commentController.deleteComment);
 route.put('/api/updateComment/:movieId/:commentId', authMiddleware(['client']), commentController.updateComment);
+
+// RATING ROUTES API 
+route.post('/api/addRating/:id', authMiddleware(['client']), ratingController.addRating);
 export default route;
