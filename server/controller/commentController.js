@@ -49,7 +49,24 @@ const deleteComment = async (req, res) => {
 
 
 const updateComment = async (req, res) => {
-    
+    try {
+        const token = req.headers["authorization"]?.split(' ')[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const clientId = decoded.id;
+
+        const movieId = req.params.movieId;
+        const commentId = req.params.commentId;
+        const newComment = req.body.comment;
+
+        const updatedmovie = await commentService.updateComment(movieId, commentId, clientId, newComment);
+        
+        res.status(200).json({
+            message: "Comment Updated Succeffully",
+            movie: updatedmovie
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to update this comment', error: error.message });
+    }
 }
 
-export default {addComment, deleteComment};    
+export default {addComment, deleteComment, updateComment};      

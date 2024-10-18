@@ -43,7 +43,7 @@ class commentService {
             }
 
             const comment  = movie.comments.find(
-                (comment) => comment._id.toString() === commentId && comment.client.toString === clientId
+                (comment) => comment._id.toString() === commentId && comment.client.toString() === clientId
             );
 
             if(!comment) {
@@ -52,7 +52,7 @@ class commentService {
 
             comment.comment = newComment;
 
-            return await comment.save();
+            return await movie.save();
 
 
         }

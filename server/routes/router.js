@@ -73,4 +73,5 @@ route.delete('/api/deleteCategory/:id', authMiddleware(['admin']), categoryContr
 // COMMENTS ROUTES API
 route.post('/api/createComment/:id', authMiddleware(['client']), commentController.addComment);
 route.delete('/api/deleteComment/:movieId/:commentId', authMiddleware(['client']), commentController.deleteComment);
+route.put('/api/updateComment/:movieId/:commentId', authMiddleware(['client']), commentController.updateComment);
 export default route;
