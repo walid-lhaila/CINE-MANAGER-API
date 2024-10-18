@@ -11,6 +11,7 @@ import commentController from '../controller/commentController.js';
 import upload from '../middleware/upload.js'
 import categoryController from '../controller/categoryController.js';
 import ratingController from '../controller/ratingController.js';
+import favorisController from '../controller/favorisController.js';
 
 const route = express.Router();
 
@@ -79,4 +80,9 @@ route.put('/api/updateComment/:movieId/:commentId', authMiddleware(['client']), 
 
 // RATING ROUTES API 
 route.post('/api/addRating/:id', authMiddleware(['client']), ratingController.addRating);
+
+//FAVORITE ROUTES API
+route.post('/api/addFavorite', authMiddleware(['client']), favorisController.addFavorite); 
+route.delete('/api/deleteFavorite', authMiddleware(['client']), favorisController.deleteFavorite); 
+
 export default route;

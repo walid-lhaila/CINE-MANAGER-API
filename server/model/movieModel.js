@@ -26,7 +26,7 @@ var moviesSchema = new mongoose.Schema({
         client: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'clients', 
-            required: true,
+            required: true, 
         },
         rating: {
             type: Number,
