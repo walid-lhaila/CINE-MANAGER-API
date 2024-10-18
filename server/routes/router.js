@@ -12,6 +12,7 @@ import upload from '../middleware/upload.js'
 import categoryController from '../controller/categoryController.js';
 import ratingController from '../controller/ratingController.js';
 import favorisController from '../controller/favorisController.js';
+import searchController from '../controller/searchController.js';
 
 const route = express.Router();
 
@@ -70,7 +71,7 @@ route.get('/api/getAllClients', authMiddleware(['admin']), clientController.getA
 
 // CATEGORIES ROUTES API 
 route.post('/api/createdCategory', authMiddleware(['admin']), categoryController.addCategory);
-route.get('/api/getAllCategories', authMiddleware(['admin']), categoryController.getAllCategories);
+route.get('/api/getAllCategories', categoryController.getAllCategories);
 route.delete('/api/deleteCategory/:id', authMiddleware(['admin']), categoryController.deleteCategory);
 
 // COMMENTS ROUTES API
@@ -84,5 +85,9 @@ route.post('/api/addRating/:id', authMiddleware(['client']), ratingController.ad
 //FAVORITE ROUTES API
 route.post('/api/addFavorite', authMiddleware(['client']), favorisController.addFavorite); 
 route.delete('/api/deleteFavorite', authMiddleware(['client']), favorisController.deleteFavorite); 
+
+
+// SEARCH ROUTE API 
+route.get('/api/search', authMiddleware(['client']), searchController.searchMovies);
 
 export default route;
