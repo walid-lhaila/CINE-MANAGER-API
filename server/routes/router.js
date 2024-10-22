@@ -70,7 +70,32 @@ route.get('/api/getAllClients', authMiddleware(['admin']), clientController.getA
 
 
 // CATEGORIES ROUTES API 
+/**
+ * @swagger
+ * /api/createdCategory:
+ *   post:
+ *     summary: Créer une nouvelle catégorie
+ *     tags: 
+ *       - Categories
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Nom de la catégorie
+ *                 example: "Nouvelle Catégorie"
+ *     responses:
+ *       200:
+ *         description: Catégorie créée avec succès
+ *       500:
+ *         description: Échec de la création de la catégorie
+ */
 route.post('/api/createdCategory', authMiddleware(['admin']), categoryController.addCategory);
+
 route.get('/api/getAllCategories', categoryController.getAllCategories);
 route.delete('/api/deleteCategory/:id', authMiddleware(['admin']), categoryController.deleteCategory);
 

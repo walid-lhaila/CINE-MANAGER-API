@@ -3,12 +3,14 @@ import cors from "cors";
 import mongoose  from "mongoose";
 import dotenv  from "dotenv";
 import router from "./server/routes/router.js";
+import setupSwagger from "./server/Documentation/swagger.js";
 
 dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+setupSwagger(app);
 app.use(express.urlencoded({ extended: true}));
 
 //LOAD ROUTERS
