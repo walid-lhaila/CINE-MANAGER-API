@@ -43,4 +43,25 @@ const deleteFavorite = async (req, res) => {
 }
 
 
-export default {addFavorite, deleteFavorite};
+const getFavorites = async (req, res) => {
+    try {
+        const token = req.headers["authorization"].split(' ')[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const clientId = decoded.id;
+
+        const favorites = await favorisService.getFavoritesByClient(clientId);
+
+        res.status(200).json({
+            message: "Favorites retrieved successfully",
+            favorites: favorites,
+        });
+    } catch (err) {
+        res.status(500).json({
+            message: "Failed to retrieve favorites",
+            error: err.message,
+        });
+    }
+}
+
+
+export default {addFavorite, deleteFavorite, getFavorites};

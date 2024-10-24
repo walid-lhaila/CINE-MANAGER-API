@@ -113,6 +113,7 @@ route.post('/api/addRating/:id', authMiddleware(['client']), ratingController.ad
 //FAVORITE ROUTES API
 route.post('/api/addFavorite', authMiddleware(['client']), favorisController.addFavorite); 
 route.delete('/api/deleteFavorite', authMiddleware(['client']), favorisController.deleteFavorite); 
+route.get('/api/getFavorites', authMiddleware(['client']), favorisController.getFavorites);
 
 
 // SEARCH ROUTE API 

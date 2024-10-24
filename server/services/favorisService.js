@@ -27,6 +27,10 @@ class FavorisService {
         }
         return result;
     }
+
+    async getFavoritesByClient(clientId) {
+        return await favorisDb.find( {client: clientId} ).populate('movie');
+    }
 }
 
 export default new FavorisService();
