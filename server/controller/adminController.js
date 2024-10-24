@@ -57,4 +57,16 @@ const getAllAdmins = async (req, res) => {
 }
 
 
-export default {addAdmin, updateAdmin, deleteAdmin, getAllAdmins};
+const countUsers = async (req, res) => {
+    try {
+        const count = await adminService.countUsers();
+        res.status(200).json(count);
+    } catch (err) {
+        res.status(500).json({
+            message: err.message || "Cannot Count Users"
+        });
+    }
+}
+
+
+export default {addAdmin, updateAdmin, deleteAdmin, getAllAdmins, countUsers};

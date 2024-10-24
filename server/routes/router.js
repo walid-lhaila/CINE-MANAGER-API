@@ -33,6 +33,7 @@ route.post('/api/createAdmin', authMiddleware(['admin']), adminController.addAdm
 route.put('/api/updateAdmin/:id', authMiddleware(['admin']), adminController.updateAdmin);
 route.delete('/api/deleteAdmin/:id', authMiddleware(['admin']), adminController.deleteAdmin);
 route.get('/api/getAllAdmins', authMiddleware(['admin']), adminController.getAllAdmins);
+route.get('/api/user-count', authMiddleware(['admin']), adminController.countUsers);
 
 // MOVIE ROUTES API
 route.post('/api/createMovie', upload, authMiddleware(['admin']), movieController.addMovie);
@@ -40,6 +41,7 @@ route.put('/api/updateMovie/:id', authMiddleware(['admin']), movieController.upd
 route.delete('/api/deleteMovie/:id', authMiddleware(['admin']), movieController.deleteMovie);
 route.get('/api/getAllMovies', movieController.getAllMovies);
 route.get('/api/getMovieDetails/:id', movieController.getMovieById);
+route.get('/api/movie-count', authMiddleware(['admin']), movieController.countMovie);
 
 
 // HALL ROUTES API
@@ -47,6 +49,7 @@ route.post('/api/createHall', authMiddleware(['admin']), hallController.addHall)
 route.put('/api/updateHall/:id', authMiddleware(['admin']), hallController.updateHall);
 route.delete('/api/deleteHall/:id', authMiddleware(['admin']), hallController.deleteHall);
 route.get('/api/getAllHall', authMiddleware(['admin']), hallController.getAllHall);
+route.get('/api/hall-count', authMiddleware(['admin']), hallController.countHall);
 
 
 // SESSION ROUTES API
@@ -113,6 +116,6 @@ route.delete('/api/deleteFavorite', authMiddleware(['client']), favorisControlle
 
 
 // SEARCH ROUTE API 
-route.get('/api/search', authMiddleware(['client']), searchController.searchMovies);
+route.get('/api/search', searchController.searchMovies);
 
 export default route;

@@ -70,6 +70,11 @@
             const getMovieById = await movieDb.findById(movieId).populate('categories').populate({path: 'comments.client', select: 'name'});
             return getMovieById;
         }
+
+        async movieCount () {
+            const countMovie = await movieDb.countDocuments();
+            return countMovie;
+        }
     }
 
 

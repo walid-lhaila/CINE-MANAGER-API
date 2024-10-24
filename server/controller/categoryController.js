@@ -29,19 +29,19 @@ const getAllCategories = (req, res) => {
     });
 };
 
-const deleteCategory = async (req, res) => {
-    try {
-        const categoryId = req.params.id;
+    const deleteCategory = async (req, res) => {
+        try {
+            const categoryId = req.params.id;
 
-        const deleteCategory = await categoryService.deleteCategory(categoryId);
-        res.status(200).json({
-            message: "category deleted successfully",
-        });
-    } catch (err) {
-        res.status(500).json({
-            message:"cannot delete Category"
-        });
+            const deleteCategory = await categoryService.deleteCategory(categoryId);
+            res.status(200).json({
+                message: "category deleted successfully",
+            });
+        } catch (err) {
+            res.status(500).json({
+                message:"cannot delete Category"
+            });
+        }
     }
-}
 
 export default { addCategory, getAllCategories, deleteCategory };

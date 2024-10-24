@@ -3,9 +3,9 @@ import sessionService from "../services/sessionService.js";
 
 const addSession = async (req, res) => {
     try {
-        const savedSeesion = await sessionService.addSession(req.body, req.file);
+        const savedSession = await sessionService.addSession(req.body, req.file);
         res.status(200).json({
-            message: "session created successfully", savedSeesion
+            message: "session created successfully", savedSession
         });
     } catch (err) {
         res.status(500).json({

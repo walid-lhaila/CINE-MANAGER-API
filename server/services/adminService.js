@@ -50,6 +50,11 @@ class AdminService {
         return admins;
     }
 
+    async countUsers() {
+        const count = await userDb.countDocuments();
+        return count;
+    }
+
 }
 
 export default new AdminService();

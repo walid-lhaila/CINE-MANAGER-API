@@ -36,6 +36,12 @@
             const Halls = await hallDb.find();
             return Halls;
         }
+
+
+        async hallCount(){
+            const countHall = await hallDb.countDocuments();
+            return countHall;
+        }
     }
 
     export default new HallService();

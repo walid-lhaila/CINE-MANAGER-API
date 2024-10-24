@@ -28,9 +28,15 @@ class SessionService {
             price,
         });
 
-        return await session.save();
+        const savedSession = await session.save();
+
+        const populatedSession = await sessionDb.findById(savedSession._id).populate('movieId').populate('hallId');
+    
+        return populatedSession;    
+    
     }
 
+    
     async updateSession(sessionId, updatedData) {
         const updateSession = await sessionDb.findByIdAndUpdate(sessionId, updatedData, { new: true });
         if(!updatedData) {
@@ -40,12 +46,12 @@ class SessionService {
     }
 
     async deleteSession(sessionId) {
-        const deleteSession = await sessionDb.findByIdAndDelete(sessionId);
+        const deleteSession = await sessionDb.findByIdAndDelete(sessionId)
         return deleteSession;
     }
 
     async getAvailableSessions() {
-        const getSessions = await sessionDb.find({ availability : true}) .populate('movieId');
+        const getSessions = await sessionDb.find({ availability : true}) .populate('movieId').populate('hallId');
         return getSessions;
     }
 

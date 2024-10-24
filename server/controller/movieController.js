@@ -78,5 +78,16 @@ const getMovieById = async (req, res) => {
     };
 }
 
+const countMovie = async (req, res) => {
+    try {
+        const countMovie = await movieService.countMovie();
+        res.status(200).json(countMovie)
+    } catch (error) {
+        res.status(500).json({
+            message: (error, "cannot count movies")
+        })
+    };
+}
 
-export default { addMovie, updateMovie, deleteMovie, getAllMovies, getMovieById };
+
+export default { addMovie, updateMovie, deleteMovie, getAllMovies, getMovieById, countMovie };

@@ -59,4 +59,16 @@ const getAllHall = async (req, res) => {
     }
 }
 
-export default { addHall, updateHall, deleteHall, getAllHall };
+
+const countHall = async (req, res) => {
+    try {
+        const countHall = await hallService.hallCount();
+        res.status(200).json(countHall)
+    } catch (error) {
+        res.status(500).json({
+            message: err.messgae || "cannot count halls"
+        });
+    }
+}
+
+export default { addHall, updateHall, deleteHall, getAllHall, countHall };
