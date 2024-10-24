@@ -55,6 +55,19 @@ class AdminService {
         return count;
     }
 
+    async toggleBanUser(userId) {
+        const user = await userDb.findById(userId);
+    
+        if (!user) {
+            throw new Error(`User with ID ${userId} not found`);
+        }
+            const newBanStatus = !user.banned;
+        user.banned = newBanStatus;
+    
+        const updatedUser = await user.save();
+    
+        return updatedUser;
+    }
 }
 
 export default new AdminService();

@@ -31,6 +31,11 @@ var usersSchema = new mongoose.Schema({
         required : true
     },
 
+    banned: {
+        type: Boolean,
+        default: false, 
+    },
+
     passwordResetToken: String,
     passwordResetExpires: Date,
 })

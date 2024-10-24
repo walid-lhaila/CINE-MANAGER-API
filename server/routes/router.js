@@ -34,6 +34,7 @@ route.put('/api/updateAdmin/:id', authMiddleware(['admin']), adminController.upd
 route.delete('/api/deleteAdmin/:id', authMiddleware(['admin']), adminController.deleteAdmin);
 route.get('/api/getAllAdmins', authMiddleware(['admin']), adminController.getAllAdmins);
 route.get('/api/user-count', authMiddleware(['admin']), adminController.countUsers);
+route.put('/api/user/ban/:id', authMiddleware(['admin']), adminController.toggleBanUser);
 
 // MOVIE ROUTES API
 route.post('/api/createMovie', upload, authMiddleware(['admin']), movieController.addMovie);

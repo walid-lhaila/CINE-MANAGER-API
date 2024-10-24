@@ -69,4 +69,27 @@ const countUsers = async (req, res) => {
 }
 
 
-export default {addAdmin, updateAdmin, deleteAdmin, getAllAdmins, countUsers};
+const toggleBanUser = async (req, res) => {
+    try {
+        const userId = req.params.id;
+
+        const updatedUser = await adminService.toggleBanUser(userId);
+
+        const action = updatedUser.banned ? "banned" : "unbanned";
+
+        res.status(200).json({
+            message: `User ${action} successfully`,
+            data: updatedUser
+        });
+    } catch (err) {
+        res.status(500).json({
+            message: err.message || "Error occurred while updating the user's ban status"
+        });
+    }
+};
+
+
+
+
+
+export default {addAdmin, updateAdmin, deleteAdmin, getAllAdmins, countUsers, toggleBanUser};
