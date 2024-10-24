@@ -41,7 +41,7 @@ class AuthService {
         const isMatch = await bcrypt.compare(password, user.password);
         if(!isMatch) throw new Error ("Invalid Credentials!");
 
-        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
+        const token = jwt.sign({ id: user._id, role: user.role, name:user.name, email:user.email, phone:user.phone, image:user.image }, process.env.JWT_SECRET, {
             expiresIn: process.env.JWT_EXPIRES_IN
         });
 

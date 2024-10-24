@@ -12,5 +12,25 @@ const getAllClients = (req, res) => {
     });
 }
 
+const updateProfile = async (req, res) => {
+    try {
+        const clientId = req.params.id;
+        const updatedData = req.body;
 
-export default {getAllClients};
+        const file = req.files ? req.files.profilePicture[0] : null; 
+
+        const updatedProfile = await clientService.updateProfile(clientId, updatedData, file);
+        
+        res.status(200).json({
+            message: "Profile updated successfully",
+            updatedProfile
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: error.message || "Cannot update profile"
+        });
+    }
+};
+
+
+export default {getAllClients, updateProfile};

@@ -80,7 +80,7 @@ const getMovieById = async (req, res) => {
 
 const countMovie = async (req, res) => {
     try {
-        const countMovie = await movieService.countMovie();
+        const countMovie = await movieService.movieCount();
         res.status(200).json(countMovie)
     } catch (error) {
         res.status(500).json({

@@ -70,7 +70,7 @@ route.get('/api/myReservations', authMiddleware(['client']), reservationControll
 
 // CLIENTS ROUTES API
 route.get('/api/getAllClients', authMiddleware(['admin']), clientController.getAllClients);
-
+route.put('/api/updateProfile/:id', upload, authMiddleware(['client']), clientController.updateProfile);
 
 // CATEGORIES ROUTES API 
 /**
@@ -98,9 +98,9 @@ route.get('/api/getAllClients', authMiddleware(['admin']), clientController.getA
  *         description: Échec de la création de la catégorie
  */
 route.post('/api/createdCategory', authMiddleware(['admin']), categoryController.addCategory);
-
 route.get('/api/getAllCategories', categoryController.getAllCategories);
 route.delete('/api/deleteCategory/:id', authMiddleware(['admin']), categoryController.deleteCategory);
+route.get('/api/category-count', authMiddleware(['admin']), categoryController.countCategory);
 
 // COMMENTS ROUTES API
 route.post('/api/createComment/:id', authMiddleware(['client']), commentController.addComment);

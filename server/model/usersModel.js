@@ -15,6 +15,16 @@ var usersSchema = new mongoose.Schema({
         type : String,
         required : true
     },
+
+    image: {
+        type: String,
+        required: false,
+    },
+
+    phone: {
+        type : Number,
+        required : false
+    },   
     
     password: {
         type : String,

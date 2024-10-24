@@ -24,6 +24,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage }).fields([
     { name: 'poster', maxCount: 1 },
     { name: 'trailer', maxCount: 1 },
+    { name: 'profilePicture', maxCount: 1 },
 ]);
 
 export default upload;

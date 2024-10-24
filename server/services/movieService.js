@@ -6,26 +6,26 @@
 
     class MovieService {
 
-        async addMovie(movieData, files) {
-            const { title, description, categories } = movieData;
+            async addMovie(movieData, files) {
+                const { title, description, categories } = movieData;
 
-            if (!files.poster || !files.trailer) {
-                throw new Error("File is required");
+                if (!files.poster || !files.trailer) {
+                    throw new Error("File is required");
+                }
+
+                const posterUrl = await this.uploadMoviePoster(files.poster, 'posters');
+                const trailerUrl = await this.uploadMoviePoster(files.trailer, 'trailers')
+
+                const movie = new movieDb({
+                    title,
+                    description,
+                    picture: posterUrl,
+                    trailer: trailerUrl,
+                    categories,
+                });
+
+                return await movie.save();
             }
-
-            const posterUrl = await this.uploadMoviePoster(files.poster, 'posters');
-            const trailerUrl = await this.uploadMoviePoster(files.trailer, 'trailers')
-
-            const movie = new movieDb({
-                title,
-                description,
-                picture: posterUrl,
-                trailer: trailerUrl,
-                categories,
-            });
-
-            return await movie.save();
-        }
 
 
 

@@ -35,6 +35,12 @@ class CategoryService {
             }
             return deleteCategory;
         }
+
+
+        async categoryCount() {
+            const countCategory = await categoryDB.countDocuments();
+            return countCategory
+        }
 }
 
 export default new CategoryService();
