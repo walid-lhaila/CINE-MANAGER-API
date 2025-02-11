@@ -19,10 +19,10 @@
                 return res.status(400).json({ message: "Email and password are required!" });
             }
     
-            const { token, role } = await authService.login(email, password);
+            const { token, user } = await authService.login(email, password);
     
-            const message = role === "admin" ? "Admin logged in successfully" : "Client logged in successfully";
-            return res.status(200).json({ message, token });
+            const message = user.role === "admin" ? "Admin logged in successfully" : "Client logged in successfully";
+            return res.status(200).json({ message, token, user });
         } catch (err) {
             console.error('Error during login:', err.message);
             res.status(401).json({ message: "Invalid email or password!" });

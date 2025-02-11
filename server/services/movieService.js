@@ -1,6 +1,7 @@
     import movieDb from "../model/movieModel.js";
     import dotenv from 'dotenv';
     import minio from '../../minio.js';
+import sessionDb from "../model/sessionModel.js";
 
     dotenv.config();
 
@@ -42,9 +43,13 @@
 
 
         async deleteMovie(movieId) {
-            const deleteMovie = await movieDb.findByIdAndDelete(movieId);
-
-            return deleteMovie;
+            const existingMovie = await sessionDb.find({movieId})
+            console.log(existingMovie)
+            if (existingMovie.length === 0){
+                const deleteMovie = await movieDb.findByIdAndDelete(movieId);
+                return deleteMovie;
+            }
+            throw new Error ('Cannot Delete THis Movie')
         }
 
         async getAllMovies() {

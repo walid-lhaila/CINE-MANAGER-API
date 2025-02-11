@@ -18,12 +18,13 @@ const transporter = nodemailer.createTransport({
 class AuthService {
 
     async registerClient(clientData) {
-        const { name, email, password } = clientData;
+        const { name, phone, email, password } = clientData;
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const client = new userDb({
-            name, 
+            name,
+            phone,
             role : 'client',
             email,
             password : hashedPassword
@@ -41,11 +42,21 @@ class AuthService {
         const isMatch = await bcrypt.compare(password, user.password);
         if(!isMatch) throw new Error ("Invalid Credentials!");
 
-        const token = jwt.sign({ id: user._id, role: user.role, name:user.name, email:user.email, phone:user.phone, image:user.image }, process.env.JWT_SECRET, {
+        user.lastActiveAt = new Date();
+        await user.save();
+
+        const token = jwt.sign({ id: user._id, role: user.role, name:user.name, email:user.email, phone:user.phone, lastActiveAt:user.lastActiveAt, image:user.image }, process.env.JWT_SECRET, {
             expiresIn: process.env.JWT_EXPIRES_IN
         });
 
-        return { token, role: user.role };
+        return { token, user:{
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                lastActiveAt: user.lastActiveAt,
+            }
+        };
         } catch (error) {
             console.error('Error during login:', error.message);
             throw new Error('Authentication failed!');

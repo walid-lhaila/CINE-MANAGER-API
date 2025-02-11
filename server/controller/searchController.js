@@ -3,7 +3,7 @@ import searchService from "../services/searchService.js";
 
 const searchMovies = async (req, res) => {
     try {
-        const query = req.query; // Get the query parameters from the request
+        const query = req.query;
         const movies = await searchService.searchMovies(query);
         res.status(200).json({
             message: "Movies found",

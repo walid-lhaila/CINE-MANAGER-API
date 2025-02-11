@@ -16,9 +16,8 @@ import searchController from '../controller/searchController.js';
 
 const route = express.Router();
 
-
 // AUTHENTIFICATION ROUTES API
-route.post('/api/createClient', authController.create);
+route.post('/api/create', authController.create);
 route.post('/api/login', authController.login);
 route.post('/api/logout', authMiddleware(), authController.logout);
 

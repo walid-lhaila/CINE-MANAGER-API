@@ -13,7 +13,8 @@ var usersSchema = new mongoose.Schema({
     
     email: {
         type : String,
-        required : true
+        required : true,
+        unique: true
     },
 
     image: {
@@ -23,7 +24,7 @@ var usersSchema = new mongoose.Schema({
 
     phone: {
         type : Number,
-        required : false
+        required : true,
     },   
     
     password: {
@@ -38,6 +39,16 @@ var usersSchema = new mongoose.Schema({
 
     passwordResetToken: String,
     passwordResetExpires: Date,
+
+    lastActiveAt: {
+        type: Date,
+        default: null
+    },
+
+    pushToken: {
+        type: String,
+        required: false,
+    },
 })
 
 const userDb = mongoose.model('users', usersSchema);
